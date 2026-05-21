@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美学宇宙自测 · Aesthetics Finder</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; transition: color 0.8s ease, border-color 0.8s ease, background-color 0.8s ease; }
+
+:root {
+  --bg: #0d0c0b;
+  --surface: #171614;
+  --border: #252320;
+  --border-lit: #3a3630;
+  --text: #e6e1d8;
+  --text-dim: #5e5a54;
+  --text-mid: #9a9088;
+  --accent: #c8a96e;
+  --accent-dim: #6b5835;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+  transition: --accent 1.2s ease, --accent-dim 1.2s ease, --border-lit 1.2s ease;
+}
+
+*, *::before, *::after {
+  transition: color 1s ease, border-color 1s ease, background-color 1s ease;
+}
+
+html, body {
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-serif);
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Progress */
+#progress-track {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: var(--border);
+  z-index: 100;
+}
+#progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+/* Screens */
+.screen {
+  min-height: 100vh;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 2rem;
+  background: var(--bg);
+}
+.screen.visible {
+  display: flex;
+}
+
+/* ─── INTRO ─── */
+#intro {
+  text-align: center;
+  gap: 2.5rem;
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.hero-title {
+  font-size: clamp(3.2rem, 11vw, 8rem);
+  font-weight: 300;
+  line-height: 0.88;
+  letter-spacing: -0.015em;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.intro-body {
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--text-mid);
+  max-width: 38ch;
+  line-height: 1.65;
+}
+
+.intro-meta {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.9rem 2.8rem;
+  border: 1px solid var(--accent-dim);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: translateX(-101%);
+  transition: transform 0.25s ease;
+  z-index: -1;
+}
+.btn:hover { color: var(--bg); border-color: var(--accent); }
+.btn:hover::before { transform: translateX(0); }
+
+/* ─── QUESTION ─── */
+#question-screen {
+  max-width: 660px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 0;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.q-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+#back-btn {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+  display: none;
+  flex-shrink: 0;
+}
+#back-btn:hover { color: var(--text-mid); }
+#back-btn.visible { display: block; }
+
+.q-index {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+}
+
+.q-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.q-text {
+  font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 3rem;
+  max-width: 26ch;
+}
+
+.options {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.05rem 0;
+  border-top: 1px solid var(--border);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.option:last-child { border-bottom: 1px solid var(--border); }
+.option:hover { border-top-color: var(--border-lit); }
+.option:hover .opt-key { color: var(--accent); border-color: var(--accent-dim); }
+.option:hover .opt-text { color: var(--text); }
+
+.opt-key {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.45rem;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+  transition: all 0.15s;
+}
+
+.opt-text {
+  font-size: 1.05rem;
+  font-weight: 300;
+  color: var(--text-dim);
+  line-height: 1.5;
+  transition: color 0.15s;
+}
+
+/* ─── RESULT ─── */
+#result-screen {
+  text-align: center;
+  gap: 2.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.result-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.3em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.result-name {
+  font-size: clamp(3.8rem, 13vw, 9rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.result-zh {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.25em;
+}
+
+.result-rule {
+  width: 50px;
+  height: 1px;
+  background: var(--accent-dim);
+  margin: 0 auto;
+}
+
+.result-desc {
+  font-size: 1.15rem;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--text-mid);
+  max-width: 46ch;
+  margin: 0 auto;
+}
+
+.runners-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 0.85rem;
+}
+
+.runners {
+  display: flex;
+  gap: 0.65rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.runner-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.9rem;
+  transition: all 0.2s;
+}
+.runner-tag:hover { color: var(--text-mid); border-color: var(--border-lit); }
+
+.result-score-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.score-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--text-dim);
+  width: 110px;
+  flex-shrink: 0;
+  letter-spacing: 0.05em;
+}
+
+.score-track {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  position: relative;
+}
+
+.score-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  background: var(--accent-dim);
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.score-fill.top { background: var(--accent); }
+
+
+/* ─── EXPORT CARD ─── */
+#export-card {
+  position: fixed;
+  left: -9999px;
+  top: 0;
+  width: 600px;
+  height: 900px;
+  background: #0d0c0b;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 64px 56px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+#export-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 70% 20%, rgba(200,169,110,0.07) 0%, transparent 65%);
+}
+.ec-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: #5e5a54;
+  text-transform: uppercase;
+  margin-bottom: 52px;
+}
+.ec-name {
+  font-size: 88px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 0.88;
+  letter-spacing: -0.02em;
+  color: #e6e1d8;
+  margin-bottom: 18px;
+}
+.ec-zh {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  color: #c8a96e;
+}
+.ec-rule {
+  width: 40px;
+  height: 1px;
+  background: #3a3630;
+  margin: 36px 0;
+}
+.ec-desc {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: #9a9088;
+}
+.ec-runners-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: #3a3630;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.ec-runners { display: flex; gap: 10px; flex-wrap: wrap; }
+.ec-runner {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: #5e5a54;
+  border: 1px solid #252320;
+  padding: 6px 14px;
+}
+.ec-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 20px;
+  border-top: 1px solid #1e1c1a;
+  margin-top: 32px;
+}
+.ec-site {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: #2e2c29;
+}
+.ec-corner {
+  width: 24px;
+  height: 24px;
+  border-right: 1px solid #2e2c29;
+  border-bottom: 1px solid #2e2c29;
+}
+.export-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 0.75rem 2rem;
+  border: 1px solid #252320;
+  background: transparent;
+  color: #5e5a54;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.export-btn:hover { color: var(--text-mid); border-color: var(--border-lit); }
+.export-btn.loading { opacity: 0.4; pointer-events: none; }
+.result-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+@media (max-width: 580px) {
+  .q-text { font-size: 1.4rem; }
+  .result-name { font-size: 3.5rem; }
+  .hero-title { font-size: 3rem; }
+  #intro { padding: 4rem 1.5rem; }
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+<div id="progress-track"><div id="progress-fill"></div></div>
+
+<!-- INTRO -->
+<div class="screen visible" id="intro">
+  <div class="mono-label">Aesthetics Wiki · 美学倾向自测</div>
+  <div class="hero-title">你住在<br>哪种<em>美学</em><br>宇宙里</div>
+  <div class="intro-body">十个问题，没有正确答案。只有你已经是的那个人。基于 Aesthetics Wiki 收录的主要流派策展整理。</div>
+  <button class="btn" id="start-btn">开始测试</button>
+  <div class="intro-meta">10 QUESTIONS · 10 AESTHETICS · NO WRONG ANSWERS</div>
+</div>
+
+<!-- QUESTION -->
+<div class="screen" id="question-screen">
+  <div class="q-header">
+    <button id="back-btn">← 返回</button>
+    <span class="q-index" id="q-index">01 / 12</span>
+    <div class="q-rule"></div>
+  </div>
+  <div class="q-text" id="q-text"></div>
+  <div class="options" id="options"></div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="result-screen">
+  <div class="result-eyebrow">你的美学宇宙</div>
+  <div class="result-name" id="r-name"></div>
+  <div class="result-zh" id="r-zh"></div>
+  <div class="result-rule"></div>
+  <div class="result-desc" id="r-desc"></div>
+  <div>
+    <div class="runners-label">与你相邻的宇宙</div>
+    <div class="runners" id="r-runners"></div>
+  </div>
+  <div class="result-score-bar" id="r-scores"></div>
+  <div class="result-actions">
+    <button class="btn" id="restart-btn">重新测试</button>
+    <button class="export-btn" id="export-btn">保存图片</button>
+  </div>
+</div>
+
+<!-- EXPORT CARD (off-screen) -->
+<div id="export-card">
+  <div>
+    <div class="ec-label">Aesthetics Wiki · 美学宇宙自测</div>
+    <div class="ec-name" id="ec-name"></div>
+    <div class="ec-zh" id="ec-zh"></div>
+    <div class="ec-rule"></div>
+    <div class="ec-desc" id="ec-desc"></div>
+  </div>
+  <div>
+    <div class="ec-runners-label">与你相邻的宇宙</div>
+    <div class="ec-runners" id="ec-runners"></div>
+    <div class="ec-footer">
+      <div class="ec-site">AESTHETICS QUIZ</div>
+      <div class="ec-corner"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const AESTHETICS = {
+  cottagecore: {
+    name: "Cottagecore", zh: "田园诗核",
+    desc: "你向往一种被放慢的生活——揉面团，压野花，亚麻围裙和窗台上的迷迭香。这不只是审美，是对速度本身的一种抵抗。慢不是落后，是你选择的时区。",
+    palette: { accent: "#a8b88a", accentDim: "#4a6a3a", borderLit: "#5a7a4a", glow: "rgba(168,184,138,0.06)" }
+  },
+  darkAcademia: {
+    name: "Dark Academia", zh: "暗黑学院",
+    desc: "知识对你来说是一种仪式感。秋天是永久的季节，图书馆是真正的教堂，蜡烛燃到最后一点也值得。你追求的不是答案，是追求本身——那种在黑暗里摸索又不愿开灯的执迷。",
+    palette: { accent: "#c4956a", accentDim: "#6b3e1e", borderLit: "#5a3a20", glow: "rgba(196,149,106,0.07)" }
+  },
+  lightAcademia: {
+    name: "Light Academia", zh: "明亮学院",
+    desc: "你也爱知识，但你选择在阳光下读书。米白色开领衬衫，庭院里的下午茶，手边是古典语言或诗集。这不是逃离黑暗——这是知道光也可以成为严肃的事。",
+    palette: { accent: "#c8b878", accentDim: "#6b5828", borderLit: "#5a4818", glow: "rgba(200,184,120,0.06)" }
+  },
+  vaporwave: {
+    name: "Vaporwave", zh: "蒸汽波",
+    desc: "你迷恋已经消失的东西——购物中心的幽灵，日本八十年代的霓虹，一种从未真正存在过的怀旧。过去是一个你没有去过却记得的地方，而你甘愿永远住在那份失落里。",
+    palette: { accent: "#c471ed", accentDim: "#7b2d8b", borderLit: "#6b1d8b", glow: "rgba(196,113,237,0.07)" }
+  },
+  mujicore: {
+    name: "Mujicore", zh: "无印美学",
+    desc: "留白对你来说不是空洞，是呼吸的空间。你相信去除所有多余之后剩下的才是真正的形式。这是一种伪装成产品线的哲学，你看穿了它，又认同了它。",
+    palette: { accent: "#c8b89a", accentDim: "#7a6848", borderLit: "#5a4e40", glow: "rgba(200,184,154,0.05)" }
+  },
+  goblincore: {
+    name: "Goblincore", zh: "哥布林核",
+    desc: "你在别人的『不值得』里找到了宝藏——潮湿的苔藓，奇怪的石头，跳蚤市场的孤品。审美对你来说首先是触感问题，其次才是视觉。你不收藏美丽，你收藏有意思。",
+    palette: { accent: "#8fa85a", accentDim: "#4a5e2d", borderLit: "#3a4e1d", glow: "rgba(143,168,90,0.06)" }
+  },
+  cyberpunk: {
+    name: "Cyberpunk", zh: "赛博朋克",
+    desc: "霓虹在积水里倒影，头顶是公司的广告牌，脚下是人类的混乱。未来已经来了，只是分配不均——你活在那个不均的缝隙里，并以此为荣。系统是对手，但也是你的栖息地。",
+    palette: { accent: "#00e5ff", accentDim: "#006080", borderLit: "#005070", glow: "rgba(0,229,255,0.05)" }
+  },
+  solarpunk: {
+    name: "Solarpunk", zh: "太阳朋克",
+    desc: "你相信未来可以是绿色的而不只是灰色或镀铬的。乌托邦不是幻想，是设计问题。你的乐观是彻底的，也是有根系的——不是天真，是一种经过深思熟虑之后仍然选择希望的倔强。",
+    palette: { accent: "#7ec850", accentDim: "#3a6820", borderLit: "#4a8030", glow: "rgba(126,200,80,0.06)" }
+  },
+  y2k: {
+    name: "Y2K", zh: "千禧年核",
+    desc: "那是一个互联网还被当作应许之地的年代——半透明塑料壳，像素字体，对科技的纯粹兴奋。你怀念那种天真，或者说，你本来就活在那里，只是时钟走错了。",
+    palette: { accent: "#ff79c6", accentDim: "#8b1a6b", borderLit: "#7b0a5b", glow: "rgba(255,121,198,0.06)" }
+  },
+  weirdcore: {
+    name: "Weirdcore", zh: "诡异核",
+    desc: "边缘空间、错位的熟悉感、快要记起来又记不起来的梦。你对这种视觉上的不适有一种奇怪的亲近感——也许因为你本来就生活在某种意义上的阈限里，介于清醒和梦之间。",
+    palette: { accent: "#b39ddb", accentDim: "#5b3d8b", borderLit: "#4b2d7b", glow: "rgba(179,157,219,0.06)" }
+  },
+  japandi: {
+    name: "Japandi", zh: "侘寂北欧",
+    desc: "不完美本身就是一种完整。粗粝陶器，老木头的纹路，一个苔藓球。你不修复裂缝——你用金把它们填满，哪怕是隐形的金。你接受时间在事物上留下的一切。",
+    palette: { accent: "#c4956a", accentDim: "#6b4830", borderLit: "#5a3820", glow: "rgba(196,149,106,0.06)" }
+  },
+  fairycore: {
+    name: "Fairycore", zh: "仙灵核",
+    desc: "你相信世界有一层大多数人看不见的膜——光从叶缝漏进来，蘑菇圈是门，蜻蜓停在你手上是因为它认识你。你不是在幻想，你只是记得更多，感知到更多细微的神圣。",
+    palette: { accent: "#f0a0c0", accentDim: "#8b3060", borderLit: "#7a2050", glow: "rgba(240,160,192,0.06)" }
+  },
+  coquette: {
+    name: "Coquette", zh: "柔娇风",
+    desc: "蕾丝、蝴蝶结、半透明的柔粉色。你对脆弱有一种审美上的迷恋——不是软弱，是把柔软变成一种力量。Lana Del Rey在你这里不是音乐品味，是生活哲学。忧郁也可以很美。",
+    palette: { accent: "#f0a0b8", accentDim: "#8b3050", borderLit: "#7a2040", glow: "rgba(240,160,184,0.06)" }
+  },
+  magicalGirl: {
+    name: "Magical Girl", zh: "魔法少女",
+    desc: "变身、星星权杖、在月光下许下誓言。你相信平凡的人可以承载不平凡的使命，而这个使命一定要配得上一套华丽的变身服装。你的核心不是魔法，是成为某种更大的东西的愿望。",
+    palette: { accent: "#ff6eb4", accentDim: "#8b1a60", borderLit: "#7a0a50", glow: "rgba(255,110,180,0.07)" }
+  },
+  witchcore: {
+    name: "Witchcore", zh: "女巫核",
+    desc: "塔罗牌、晾干的草药、月相日历。你对神秘不是迷信，是一种认识论——觉得世界的真相藏在符号和仪式里，而不是数据和逻辑里。你的蜡烛不是装饰，是工具。",
+    palette: { accent: "#a87cc4", accentDim: "#5a2878", borderLit: "#4a1868", glow: "rgba(168,124,196,0.07)" }
+  },
+  liminalSpace: {
+    name: "Liminal Space", zh: "阈限空间",
+    desc: "深夜便利店、空旷的停车场、走廊尽头的灯。没有人，但能感觉到有人刚刚离开。这种空间让大多数人不安，让你感到奇异的平静——也许因为你也常常感觉自己处在两件事之间。",
+    palette: { accent: "#a0b8d0", accentDim: "#3a5870", borderLit: "#2a4860", glow: "rgba(160,184,208,0.05)" }
+  },
+  synthwave: {
+    name: "Synthwave", zh: "合成浪潮",
+    desc: "迈阿密的日落从未如此存在过，但你记得它。霓虹网格、驾驶感、八十年代科幻小说封面。你不是在哀悼消逝——你在全速驶向那个从未发生的未来，引擎声是你的心跳。",
+    palette: { accent: "#ff2d78", accentDim: "#8b0040", borderLit: "#7a0030", glow: "rgba(255,45,120,0.07)" }
+  },
+  oldMoney: {
+    name: "Old Money", zh: "旧钱风",
+    desc: "没有logo的昂贵。马术场旁的草坪，祖母留下的皮革手袋，图书馆里刻着姓氏的铜牌。你的品位建立在时间而非价格上，这是一种无法速成的优越感——你也清楚地知道这一点。",
+    palette: { accent: "#8faa7a", accentDim: "#3a5a28", borderLit: "#2a4a18", glow: "rgba(143,170,122,0.06)" }
+  },
+  sanriocore: {
+    name: "Sanriocore", zh: "三丽鸥核",
+    desc: "Hello Kitty没有嘴，但你替她感受到了所有的快乐。粉色是一种生存策略，可爱是一种世界观。你不是幼稚——你只是选择用最甜的方式面对一个有时候很难的世界。这需要勇气。",
+    palette: { accent: "#ff85b3", accentDim: "#8b1050", borderLit: "#7a0040", glow: "rgba(255,133,179,0.07)" }
+  },
+  grunge: {
+    name: "Grunge", zh: "垃圾摇滚",
+    desc: "格子衬衫从没洗过，效果更好。你对『精心打扮』有一种本能的不信任，真实比完美重要，噪音比旋律诚实。你不是不在乎——你只是在乎完全不同的东西，而那件东西没法被设计出来。",
+    palette: { accent: "#9a8a6a", accentDim: "#4a3a1a", borderLit: "#3a2a0a", glow: "rgba(154,138,106,0.05)" }
+  }
+};
+
+const QUESTIONS = [
+  {
+    text: "理想的周六下午，你在做什么？",
+    opts: [
+      { t: "在积满灰尘的图书馆读书，蜡烛燃着，热茶在手边", s: { darkAcademia: 3, lightAcademia: 1 } },
+      { t: "照顾植物，煮一壶草本茶，发呆", s: { cottagecore: 2, japandi: 2, solarpunk: 1 } },
+      { t: "在阳光充足的咖啡馆读书，笔记本摊开着", s: { lightAcademia: 3, cottagecore: 1, oldMoney: 1 } },
+      { t: "把房间整理得完美，每件东西都在它该在的地方", s: { mujicore: 3, japandi: 1 } },
+      { t: "在跳蚤市场或二手店里翻找", s: { goblincore: 3, grunge: 1, vaporwave: 1 } },
+      { t: "试穿衣服，拍自拍，研究香水或护肤", s: { coquette: 3, sanriocore: 1, oldMoney: 1 } },
+      { t: "玩老游戏或翻老专辑、老录像", s: { synthwave: 2, y2k: 2, vaporwave: 1 } },
+      { t: "在家摆弄蜡烛、香草或某种仪式感的东西", s: { witchcore: 3, cottagecore: 1, fairycore: 1 } }
+    ]
+  },
+  {
+    text: "一个色调停住了你的目光。是哪种？",
+    opts: [
+      { t: "蒙尘玫瑰、奶油白、鼠尾草绿", s: { cottagecore: 2, fairycore: 1, lightAcademia: 1 } },
+      { t: "午夜蓝、旧金色、深林绿", s: { darkAcademia: 3, witchcore: 1 } },
+      { t: "薰衣草紫、月白、晨雾灰", s: { fairycore: 2, witchcore: 2, liminalSpace: 1 } },
+      { t: "温米色、生亚麻、浅木原色", s: { mujicore: 3, japandi: 2, oldMoney: 1 } },
+      { t: "苔藓棕、蘑菇灰、铁锈橙", s: { goblincore: 3, grunge: 1 } },
+      { t: "柔粉、香槟金、蕾丝白", s: { coquette: 3, sanriocore: 1 } },
+      { t: "霓虹紫红、电子蓝、格栅黑", s: { synthwave: 3, cyberpunk: 2 } },
+      { t: "荧光粉、镀铬银、半透明塑料感", s: { y2k: 3, magicalGirl: 1, sanriocore: 1 } }
+    ]
+  },
+  {
+    text: "你的桌面或梳妆台上通常有什么？",
+    opts: [
+      { t: "叠起来的书，一根蜡烛，枯干的花", s: { darkAcademia: 2, lightAcademia: 1, witchcore: 1 } },
+      { t: "一杯水。一支笔。什么都没有。", s: { mujicore: 3, japandi: 2 } },
+      { t: "水晶、捡来的石头、来路不明的奇怪小东西", s: { goblincore: 2, witchcore: 2, fairycore: 1 } },
+      { t: "LED灯带，多个屏幕，机械键盘", s: { cyberpunk: 3, synthwave: 1 } },
+      { t: "绿植，素色陶器，自然采光", s: { japandi: 2, solarpunk: 2, cottagecore: 1 } },
+      { t: "香水瓶、护肤品、镜子、丝带或蝴蝶结", s: { coquette: 3, oldMoney: 1 } },
+      { t: "Hello Kitty摆件、贴纸、粉色小物件", s: { sanriocore: 3, magicalGirl: 1 } },
+      { t: "乐器、打口带、永远整理不完的杂物", s: { grunge: 3, goblincore: 1 } }
+    ]
+  },
+  {
+    text: "一种气味让你停下脚步。是哪种？",
+    opts: [
+      { t: "旧书与雨后的气味", s: { darkAcademia: 2, lightAcademia: 2, goblincore: 1 } },
+      { t: "泥土、新鲜香草、燃烧的木头", s: { cottagecore: 2, goblincore: 1, solarpunk: 1 } },
+      { t: "无味。只是干净的空气。", s: { mujicore: 3, japandi: 1 } },
+      { t: "合成感，略带化学气息，凉的", s: { cyberpunk: 2, synthwave: 1, liminalSpace: 1 } },
+      { t: "潮湿的土地、苔藓、地下室", s: { goblincore: 3, witchcore: 1 } },
+      { t: "花朵、雨水、森林深处说不清的香", s: { fairycore: 3, cottagecore: 1 } },
+      { t: "皮革、雪茄、年代久远的木质家具", s: { oldMoney: 3, darkAcademia: 1 } },
+      { t: "香甜的草莓、棉花糖、洗发水", s: { sanriocore: 2, coquette: 2, magicalGirl: 1 } }
+    ]
+  },
+  {
+    text: "你的手机壁纸是什么样的？",
+    opts: [
+      { t: "模糊的雾中田野或林间漏光的照片", s: { cottagecore: 2, fairycore: 2 } },
+      { t: "渐变色彩的数字合成图，带着旧时代科幻感", s: { vaporwave: 2, synthwave: 2 } },
+      { t: "纯黑，或者一个单色", s: { mujicore: 3, grunge: 1, cyberpunk: 1 } },
+      { t: "故障风图像，有点令人不安的那种", s: { weirdcore: 3, liminalSpace: 1 } },
+      { t: "空旷的走廊、泳池、深夜便利店", s: { liminalSpace: 3, weirdcore: 2 } },
+      { t: "书本、建筑、古典艺术的局部截图", s: { lightAcademia: 2, darkAcademia: 2, oldMoney: 1 } },
+      { t: "卡通、三丽鸥角色，或者让我心情好的可爱图案", s: { sanriocore: 3, magicalGirl: 1 } },
+      { t: "郁郁葱葱的植物或植物学手绘插图", s: { solarpunk: 3, cottagecore: 1 } }
+    ]
+  },
+  {
+    text: "你在听什么？",
+    opts: [
+      { t: "室内乐、爵士、原声民谣", s: { darkAcademia: 2, lightAcademia: 2, cottagecore: 1 } },
+      { t: "合成器流行、Lo-fi City Pop、日本八十年代", s: { vaporwave: 3, y2k: 1 } },
+      { t: "后朋克、冷浪潮、工业噪音", s: { cyberpunk: 2, darkAcademia: 1, grunge: 1 } },
+      { t: "环境音乐、田野录音，或者干脆安静", s: { mujicore: 2, japandi: 2, liminalSpace: 1 } },
+      { t: "梦幻流行、Ethereal wave、New Age", s: { fairycore: 2, witchcore: 2, coquette: 1 } },
+      { t: "80年代金属合成器、驾驶感强的电子乐", s: { synthwave: 3, cyberpunk: 1 } },
+      { t: "失真吉他、Nirvana式噪音摇滚", s: { grunge: 3, cyberpunk: 1 } },
+      { t: "Hyperpop或超甜的J-Pop、偶像曲", s: { sanriocore: 2, magicalGirl: 2, y2k: 1 } }
+    ]
+  },
+  {
+    text: "你在哪里发现了真正的美？",
+    opts: [
+      { t: "不完美本身——磨损的，修补过的，有历史痕迹的", s: { japandi: 3, goblincore: 1, grunge: 1 } },
+      { t: "腐坏与怀旧，正在消逝的东西", s: { vaporwave: 2, darkAcademia: 1, liminalSpace: 1 } },
+      { t: "系统、网格与克制——少即是多", s: { mujicore: 3, oldMoney: 1 } },
+      { t: "奇异与边缘地带，令人不安的熟悉感", s: { weirdcore: 3, liminalSpace: 2 } },
+      { t: "柔软、精致、一切粉色和蕾丝的东西", s: { coquette: 3, sanriocore: 1 } },
+      { t: "无logo的质感，时间赋予物件的尊严", s: { oldMoney: 3, japandi: 1 } },
+      { t: "微小的神秘——蜘蛛网上的水珠，叶背的纹路", s: { fairycore: 2, goblincore: 1, witchcore: 1 } },
+      { t: "未来的乌托邦，生命繁盛、人与自然共生的图景", s: { solarpunk: 3, fairycore: 1 } }
+    ]
+  },
+  {
+    text: "你和杂乱的关系是什么？",
+    opts: [
+      { t: "杂乱是质感。我收集，我囤积，我热爱混乱。", s: { goblincore: 3, grunge: 1 } },
+      { t: "精心策划的丰盛——每件东西都值得在这里", s: { cottagecore: 2, witchcore: 1, darkAcademia: 1 } },
+      { t: "表面极简，内部丰富", s: { mujicore: 2, japandi: 2, oldMoney: 1 } },
+      { t: "我喜欢可爱的过度刺激——贴纸、挂饰、颜色越多越好", s: { sanriocore: 3, magicalGirl: 1, y2k: 1 } },
+      { t: "混乱没关系。秩序是一种幻觉。", s: { weirdcore: 2, grunge: 2, liminalSpace: 1 } },
+      { t: "仪式感的陈列——每件东西都有它的意义和位置", s: { witchcore: 3, darkAcademia: 1 } }
+    ]
+  },
+  {
+    text: "你最想住在哪里？",
+    opts: [
+      { t: "有花园的小屋，厨房里种着香草", s: { cottagecore: 3, fairycore: 1 } },
+      { t: "落地窗高楼，俯瞰城市夜灯与积雨", s: { cyberpunk: 2, synthwave: 1, oldMoney: 1 } },
+      { t: "图书馆式的家——深木、皮革、几千本书", s: { darkAcademia: 3, oldMoney: 1 } },
+      { t: "一间干净的公寓，一盆植物，充足的自然光", s: { mujicore: 2, japandi: 2, lightAcademia: 1 } },
+      { t: "一个过度生长的温室-住所混合体", s: { solarpunk: 3, goblincore: 1 } },
+      { t: "某个感觉像在故障边缘的地方——空旷、静止、时间不对", s: { liminalSpace: 3, weirdcore: 2 } },
+      { t: "祖传的老宅，有年头的家具，能感受到时间的重量", s: { oldMoney: 3, darkAcademia: 1 } },
+      { t: "全粉色的房间，毛绒玩具排列整齐，到处都是可爱", s: { sanriocore: 3, coquette: 2, magicalGirl: 1 } }
+    ]
+  },
+  {
+    text: "你与『过去』的关系是？",
+    opts: [
+      { t: "过去是我更愿意居住的地方", s: { darkAcademia: 2, lightAcademia: 1, cottagecore: 1 } },
+      { t: "对一个自己没经历过的年代有无端的思念，有点心痛", s: { vaporwave: 3, darkAcademia: 1 } },
+      { t: "过去是未来的堆肥，我消化它然后继续走", s: { solarpunk: 3, goblincore: 1 } },
+      { t: "奶奶家的气味，旧家具，时间给物件留下的包浆", s: { oldMoney: 3, japandi: 1, cottagecore: 1 } },
+      { t: "我不怀旧，活在当下就很好", s: { solarpunk: 2, mujicore: 2 } },
+      { t: "我只想要霓虹格栅和还未到来的未来", s: { cyberpunk: 2, synthwave: 2, y2k: 1 } }
+    ]
+  },
+  {
+    text: "一个人的深夜，你在做什么？",
+    opts: [
+      { t: "翻旧的互联网存档，找那种几乎没人知道的网站", s: { weirdcore: 2, vaporwave: 2, liminalSpace: 1 } },
+      { t: "整理东西，调整家里的陈设，追求一种平静的秩序", s: { mujicore: 3, japandi: 2 } },
+      { t: "读诗或看电影，用笔记本记录感受", s: { lightAcademia: 3, darkAcademia: 1 } },
+      { t: "做护肤、香薰浴、点蜡烛，整个仪式走下来", s: { coquette: 3, witchcore: 1, oldMoney: 1 } },
+      { t: "在花盆边或窗台上发现一只小虫，陪它待一会儿", s: { goblincore: 3, fairycore: 1 } },
+      { t: "放很大声的音乐，什么都不管", s: { grunge: 3, cyberpunk: 1 } },
+      { t: "盯着月亮，摆弄塔罗牌或水晶", s: { witchcore: 3, fairycore: 1 } },
+      { t: "打游戏或刷三丽鸥周边，喝甜饮料", s: { sanriocore: 3, y2k: 1, magicalGirl: 1 } }
+    ]
+  },
+  {
+    text: "你发照片到网络上，风格最接近哪种？",
+    opts: [
+      { t: "自然光，胶片质感，食物、植物或手工物件", s: { cottagecore: 3, lightAcademia: 1 } },
+      { t: "高对比，暗调，有点颗粒感", s: { darkAcademia: 2, grunge: 2, cyberpunk: 1 } },
+      { t: "饱和度低，构图极简，留大量空白", s: { mujicore: 3, japandi: 2 } },
+      { t: "精致的生活细节——餐桌、香水、质感织物", s: { oldMoney: 3, coquette: 1 } },
+      { t: "鲜艳闪光，或者故意过曝、拼贴风格", s: { y2k: 2, magicalGirl: 1, sanriocore: 1 } },
+      { t: "我很少发，或者发了但构图完全随意", s: { goblincore: 2, grunge: 2, weirdcore: 1 } },
+      { t: "带引言或文字，图像是观点的载体", s: { solarpunk: 2, lightAcademia: 2, darkAcademia: 1 } }
+    ]
+  },
+  {
+    text: "如果魔法存在，你觉得它藏在哪里？",
+    opts: [
+      { t: "古老的仪式里，月圆之夜，符文和草药", s: { witchcore: 3, darkAcademia: 1 } },
+      { t: "树根之间、露水里、昆虫翅膀的脉络", s: { fairycore: 3, goblincore: 1 } },
+      { t: "一个少女许下誓言，星星赋予她力量的瞬间", s: { magicalGirl: 3, fairycore: 1 } },
+      { t: "三丽鸥的粉色泡泡里——可爱本身就是魔法", s: { sanriocore: 3, magicalGirl: 1 } },
+      { t: "空旷走廊尽头那扇微开的门后面", s: { liminalSpace: 3, weirdcore: 2 } },
+      { t: "魔法不存在。但如果存在，它应该很克制，像一块质地很好的石头。", s: { mujicore: 2, japandi: 2, oldMoney: 1 } }
+    ]
+  },
+  {
+    text: "你的怀旧是什么感觉？",
+    opts: [
+      { t: "对一个自己没经历过的年代莫名心痛，像失去了什么", s: { vaporwave: 3, darkAcademia: 1 } },
+      { t: "驾驶感，速度，霓虹从车窗外掠过，全速驶向那个从未发生的未来", s: { synthwave: 3, cyberpunk: 1 } },
+      { t: "翻出一台GBA，或者记起第一次上网的那种纯粹兴奋", s: { y2k: 3, sanriocore: 1 } },
+      { t: "奶奶家的气味，旧家具，某种无法复制的生活质感", s: { oldMoney: 3, cottagecore: 1 } },
+      { t: "对某个快要消失的、没人记得的小东西的留恋", s: { goblincore: 2, liminalSpace: 2, vaporwave: 1 } },
+      { t: "我不太怀旧——或者说，我怀念的是一个还没发生的更好的未来", s: { solarpunk: 3, mujicore: 1 } }
+    ]
+  },
+  {
+    text: "你如何看待自己的消费和购物？",
+    opts: [
+      { t: "少买，但买的每件东西都经过深思，用很久", s: { mujicore: 3, japandi: 2 } },
+      { t: "只买有历史的、无logo的、质地经得起时间的", s: { oldMoney: 3, japandi: 1 } },
+      { t: "愿意花在蕾丝、香水、护肤上，这是对自己的仪式", s: { coquette: 3, oldMoney: 1 } },
+      { t: "尽量买二手、自制、修复——消费本身应该有伦理", s: { solarpunk: 3, goblincore: 1, grunge: 1 } },
+      { t: "我不太在意，东西用坏了再说，或者干脆不买", s: { grunge: 3, weirdcore: 1 } },
+      { t: "我喜欢可爱的东西，价格不重要，让我快乐最重要", s: { sanriocore: 3, magicalGirl: 1, coquette: 1 } }
+    ]
+  }
+];
+
+// ─── State ───
+let scores = {};
+let currentQ = 0;
+let isTransitioning = false;
+let answerHistory = []; // [{scores: {...}}]
+
+// Default palette
+const DEFAULT_PALETTE = {
+  accent: "#c8a96e", accentDim: "#6b5835", borderLit: "#3a3630", glow: "rgba(200,169,110,0.05)"
+};
+
+function hexToRgb(hex) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return [r,g,b];
+}
+
+function lerpColor(a, b, t) {
+  const ra = hexToRgb(a), rb = hexToRgb(b);
+  const r = Math.round(ra[0] + (rb[0]-ra[0])*t);
+  const g = Math.round(ra[1] + (rb[1]-ra[1])*t);
+  const bb2 = Math.round(ra[2] + (rb[2]-ra[2])*t);
+  return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${bb2.toString(16).padStart(2,'0')}`;
+}
+
+function applyPalette(palette, strength) {
+  const t = Math.min(strength, 1);
+  const root = document.documentElement;
+  root.style.setProperty('--accent',     lerpColor(DEFAULT_PALETTE.accent,    palette.accent,    t));
+  root.style.setProperty('--accent-dim', lerpColor(DEFAULT_PALETTE.accentDim, palette.accentDim, t));
+  root.style.setProperty('--border-lit', lerpColor(DEFAULT_PALETTE.borderLit, palette.borderLit, t));
+}
+
+function updateDynamicColor() {
+  const total = Object.values(scores).reduce((a,b) => a+b, 0);
+  if (total === 0) { applyPalette(DEFAULT_PALETTE, 0); return; }
+  const sorted = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  const topId = sorted[0][0];
+  const topScore = sorted[0][1];
+  const strength = Math.min(topScore / 9, 1) * 0.85;
+  applyPalette(AESTHETICS[topId].palette, strength);
+}
+
+function resetScores() {
+  Object.keys(AESTHETICS).forEach(k => scores[k] = 0);
+  answerHistory = [];
+  applyPalette(DEFAULT_PALETTE, 0);
+}
+
+// ─── Screens ───
+function showScreen(id, instant) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('visible');
+  });
+  const el = document.getElementById(id);
+  if (instant) {
+    el.classList.add('visible');
+  } else {
+    setTimeout(() => el.classList.add('visible'), 20);
+  }
+  window.scrollTo(0, 0);
+}
+
+// ─── Quiz Logic ───
+function startQuiz() {
+  resetScores();
+  currentQ = 0;
+  showScreen('question-screen');
+  setTimeout(renderQ, 100);
+  document.getElementById('progress-fill').style.width = '0%';
+}
+
+function renderQ() {
+  const q = QUESTIONS[currentQ];
+  const n = currentQ + 1;
+  const backBtn = document.getElementById('back-btn');
+  if (currentQ > 0) { backBtn.classList.add('visible'); }
+  else { backBtn.classList.remove('visible'); }
+  document.getElementById('q-index').textContent =
+    String(n).padStart(2,'0') + ' / ' + String(QUESTIONS.length).padStart(2,'0');
+  document.getElementById('q-text').textContent = q.text;
+
+  const container = document.getElementById('options');
+  container.innerHTML = '';
+  const labels = 'ABCDEFGH';
+  q.opts.forEach((opt, i) => {
+    const div = document.createElement('div');
+    div.className = 'option';
+    div.innerHTML =
+      `<span class="opt-key">${labels[i]}</span>` +
+      `<span class="opt-text">${opt.t}</span>`;
+    div.addEventListener('click', () => selectOpt(opt.s));
+    container.appendChild(div);
+  });
+}
+
+function goBack() {
+  if (currentQ === 0 || isTransitioning) return;
+  isTransitioning = true;
+  currentQ--;
+  const last = answerHistory.pop();
+  if (last) {
+    Object.entries(last.scores).forEach(([k, v]) => { scores[k] = (scores[k] || 0) - v; });
+  }
+  updateDynamicColor();
+  const pct = (currentQ / QUESTIONS.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  const qs = document.getElementById('question-screen');
+  qs.style.opacity = '0';
+  setTimeout(() => {
+    renderQ();
+    qs.style.opacity = '1';
+    isTransitioning = false;
+  }, 220);
+}
+
+function selectOpt(optScores) {
+  if (isTransitioning) return;
+  isTransitioning = true;
+
+  answerHistory.push({ scores: {...optScores} });
+  Object.entries(optScores).forEach(([k, v]) => { scores[k] = (scores[k] || 0) + v; });
+  updateDynamicColor();
+  currentQ++;
+
+  const pct = (currentQ / QUESTIONS.length) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  if (currentQ >= QUESTIONS.length) {
+    showResults();
+    isTransitioning = false;
+    return;
+  }
+
+  const qs = document.getElementById('question-screen');
+  qs.style.opacity = '0';
+  setTimeout(() => {
+    renderQ();
+    qs.style.opacity = '1';
+    isTransitioning = false;
+  }, 220);
+}
+
+function showResults() {
+  const sorted = Object.entries(scores)
+    .sort((a, b) => b[1] - a[1])
+    .filter(([, v]) => v > 0);
+
+  const winnerId = sorted[0][0];
+  const winner = AESTHETICS[winnerId];
+  const maxScore = sorted[0][1];
+
+  document.getElementById('r-name').textContent = winner.name;
+  document.getElementById('r-zh').textContent = winner.zh;
+  document.getElementById('r-desc').textContent = winner.desc;
+
+  // Populate export card
+  const runnerIds = sorted.slice(1, 4).map(([id]) => id);
+  populateExportCard(winner, runnerIds);
+
+  // Runners-up tags (top 3 after winner)
+  const runnersEl = document.getElementById('r-runners');
+  runnersEl.innerHTML = '';
+  sorted.slice(1, 4).forEach(([id]) => {
+    const tag = document.createElement('span');
+    tag.className = 'runner-tag';
+    tag.textContent = AESTHETICS[id].name;
+    runnersEl.appendChild(tag);
+  });
+
+  // Score bars
+  const scoresEl = document.getElementById('r-scores');
+  scoresEl.innerHTML = '';
+  sorted.slice(0, 6).forEach(([id, val], i) => {
+    const pct = Math.round((val / maxScore) * 100);
+    const row = document.createElement('div');
+    row.className = 'score-row';
+    row.innerHTML =
+      `<span class="score-label">${AESTHETICS[id].name}</span>` +
+      `<div class="score-track"><div class="score-fill${i === 0 ? ' top' : ''}" style="width:0%" data-target="${pct}%"></div></div>`;
+    scoresEl.appendChild(row);
+  });
+
+  showScreen('result-screen');
+
+  // Animate bars after display
+  setTimeout(() => {
+    document.querySelectorAll('.score-fill').forEach(el => {
+      el.style.width = el.dataset.target;
+    });
+  }, 200);
+}
+
+// ─── Export ───
+function populateExportCard(winner, runners) {
+  document.getElementById('ec-name').textContent = winner.name;
+  document.getElementById('ec-zh').textContent = winner.zh;
+  document.getElementById('ec-desc').textContent = winner.desc;
+  const rEl = document.getElementById('ec-runners');
+  rEl.innerHTML = '';
+  runners.forEach(id => {
+    const s = document.createElement('span');
+    s.className = 'ec-runner';
+    s.textContent = AESTHETICS[id].name;
+    rEl.appendChild(s);
+  });
+}
+
+async function exportCard() {
+  const btn = document.getElementById('export-btn');
+  btn.classList.add('loading');
+  btn.textContent = '生成中…';
+  try {
+    const card = document.getElementById('export-card');
+    const canvas = await html2canvas(card, {
+      backgroundColor: '#0d0c0b',
+      scale: 2,
+      useCORS: true,
+      logging: false,
+      width: 600,
+      height: 900
+    });
+    const link = document.createElement('a');
+    link.download = 'aesthetics-result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } catch(e) {
+    console.error(e);
+  }
+  btn.classList.remove('loading');
+  btn.textContent = '保存图片';
+}
+
+// ─── Init ───
+document.getElementById('start-btn').addEventListener('click', startQuiz);
+document.getElementById('back-btn').addEventListener('click', goBack);
+document.getElementById('export-btn').addEventListener('click', exportCard);
+document.getElementById('restart-btn').addEventListener('click', () => {
+  showScreen('intro');
+  document.getElementById('progress-fill').style.width = '0%';
+});
+
+// Smooth Q transition
+document.getElementById('question-screen').style.transition = 'opacity 0.2s ease';
+</script>
+</body>
+</html>
