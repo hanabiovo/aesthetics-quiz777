@@ -138,8 +138,11 @@ body::after {
   transition: transform 0.25s ease;
   z-index: -1;
 }
-.btn:hover { color: var(--bg); border-color: var(--accent); }
-.btn:hover::before { transform: translateX(0); }
+@media (hover: hover) {
+  .btn:hover { color: var(--bg); border-color: var(--accent); }
+  .btn:hover::before { transform: translateX(0); }
+}
+.btn:active { color: var(--bg); border-color: var(--accent); }
 
 /* ─── QUESTION ─── */
 #question-screen {
@@ -170,7 +173,8 @@ body::after {
   display: none;
   flex-shrink: 0;
 }
-#back-btn:hover { color: var(--text-mid); }
+@media (hover: hover) { #back-btn:hover { color: var(--text-mid); } }
+#back-btn:active { color: var(--text-mid); }
 #back-btn.visible { display: block; }
 
 .q-index {
@@ -210,9 +214,14 @@ body::after {
   transition: border-color 0.15s;
 }
 .option:last-child { border-bottom: 1px solid var(--border); }
-.option:hover { border-top-color: var(--border-lit); }
-.option:hover .opt-key { color: var(--accent); border-color: var(--accent-dim); }
-.option:hover .opt-text { color: var(--text); }
+@media (hover: hover) {
+  .option:hover { border-top-color: var(--border-lit); }
+  .option:hover .opt-key { color: var(--accent); border-color: var(--accent-dim); }
+  .option:hover .opt-text { color: var(--text); }
+}
+.option:active { border-top-color: var(--border-lit); }
+.option:active .opt-key { color: var(--accent); border-color: var(--accent-dim); }
+.option:active .opt-text { color: var(--text); }
 
 .opt-key {
   font-family: var(--font-mono);
@@ -307,7 +316,9 @@ body::after {
   padding: 0.4rem 0.9rem;
   transition: all 0.2s;
 }
-.runner-tag:hover { color: var(--text-mid); border-color: var(--border-lit); }
+@media (hover: hover) {
+  .runner-tag:hover { color: var(--text-mid); border-color: var(--border-lit); }
+}
 
 .result-score-bar {
   display: flex;
@@ -458,7 +469,10 @@ body::after {
   cursor: pointer;
   transition: all 0.25s;
 }
-.export-btn:hover { color: var(--text-mid); border-color: var(--border-lit); }
+@media (hover: hover) {
+  .export-btn:hover { color: var(--text-mid); border-color: var(--border-lit); }
+}
+.export-btn:active { color: var(--text-mid); border-color: var(--border-lit); }
 .export-btn.loading { opacity: 0.4; pointer-events: none; }
 .result-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
