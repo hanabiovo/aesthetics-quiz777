@@ -493,9 +493,9 @@ body::after {
 <div class="screen visible" id="intro">
   <div class="mono-label">Aesthetics Wiki · 美学倾向自测</div>
   <div class="hero-title">你住在<br>哪种<em>美学</em><br>宇宙里</div>
-  <div class="intro-body">15个问题，没有正确答案。只有你已经是的那个人。基于 Aesthetics Wiki 收录的主要流派策展整理。</div>
+  <div class="intro-body">十个问题，没有正确答案。只有你已经是的那个人。基于 Aesthetics Wiki 收录的主要流派策展整理。</div>
   <button class="btn" id="start-btn">开始测试</button>
-  <div class="intro-meta">15 QUESTIONS · 15 AESTHETICS · NO WRONG ANSWERS</div>
+  <div class="intro-meta">15 QUESTIONS · 20 AESTHETICS · NO WRONG ANSWERS</div>
 </div>
 
 <!-- QUESTION -->
@@ -570,7 +570,7 @@ const AESTHETICS = {
   },
   mujicore: {
     name: "Mujicore", zh: "无印美学",
-    desc: "留白对你来说不是空洞，是呼吸的空间。你相信去除所有多余之后剩下的才是真正的形式。这是一种伪装成产品线的哲学，你看穿了它，又认同了它。",
+    desc: "留白对你来说不是空洞，是呼吸的空间。你相信去除所有多余之后剩下的才是真正的形式。你删减的不是物品，是决定——外面越少，里面越清楚。",
     palette: { accent: "#c8b89a", accentDim: "#7a6848", borderLit: "#5a4e40", glow: "rgba(200,184,154,0.05)" }
   },
   goblincore: {
@@ -600,7 +600,7 @@ const AESTHETICS = {
   },
   japandi: {
     name: "Japandi", zh: "侘寂北欧",
-    desc: "不完美本身就是一种完整。粗粝陶器，老木头的纹路，一个苔藓球。你不修复裂缝——你用金把它们填满，哪怕是隐形的金。你接受时间在事物上留下的一切。",
+    desc: "不完美本身就是一种完整。粗粝陶器，老木头的纹路，一个苔藓球。你不修复裂缝——你用金把它们填满，哪怕是隐形的金。你不是接受了时间留下的印记——你本来就偏爱有历史的东西。",
     palette: { accent: "#c4956a", accentDim: "#6b4830", borderLit: "#5a3820", glow: "rgba(196,149,106,0.06)" }
   },
   fairycore: {
@@ -654,188 +654,191 @@ const QUESTIONS = [
   {
     text: "理想的周六下午，你在做什么？",
     opts: [
-      { t: "在积满灰尘的图书馆读书，蜡烛燃着，热茶在手边", s: { darkAcademia: 3, lightAcademia: 1 } },
-      { t: "照顾植物，煮一壶草本茶，发呆", s: { cottagecore: 2, japandi: 2, solarpunk: 1 } },
-      { t: "在阳光充足的咖啡馆读书，笔记本摊开着", s: { lightAcademia: 3, cottagecore: 1, oldMoney: 1 } },
-      { t: "把房间整理得完美，每件东西都在它该在的地方", s: { mujicore: 3, japandi: 1 } },
-      { t: "在跳蚤市场或二手店里翻找", s: { goblincore: 3, grunge: 1, vaporwave: 1 } },
-      { t: "试穿衣服，拍自拍，研究香水或护肤", s: { coquette: 3, sanriocore: 1, oldMoney: 1 } },
-      { t: "玩老游戏或翻老专辑、老录像", s: { synthwave: 2, y2k: 2, vaporwave: 1 } },
-      { t: "在家摆弄蜡烛、香草或某种仪式感的东西", s: { witchcore: 3, cottagecore: 1, fairycore: 1 } }
+      { t: "找一个安静的角落，沉浸式阅读，时间在书页间悄悄流走", s: { darkAcademia: 2, lightAcademia: 2 } },
+      { t: "做一些慢的事情——照顾植物、煮茶、让身体记住时间的质地", s: { cottagecore: 2, japandi: 2, solarpunk: 1 } },
+      { t: "在光线好的地方写点什么，有一种正在记录、正在留存的感觉", s: { lightAcademia: 3, mujicore: 1, oldMoney: 1 } },
+      { t: "把空间整理到满意，让每件东西回到它该在的地方", s: { mujicore: 3, japandi: 1 } },
+      { t: "去人少的地方翻找，为那些被忽略的东西赋予新的意义", s: { goblincore: 3, grunge: 1 } },
+      { t: "精心对待自己——从里到外打磨某种只属于你的状态", s: { coquette: 2, oldMoney: 1, sanriocore: 1 } },
+      { t: "重温某个老东西，感受那个时代留下的温度", s: { synthwave: 2, y2k: 2, vaporwave: 1 } },
+      { t: "沉浸在某个想象的世界或角色里，短暂地成为另一个自己", s: { magicalGirl: 3, fairycore: 1, witchcore: 1 } }
     ]
   },
   {
-    text: "一个色调停住了你的目光。是哪种？",
+    text: "有一种颜色组合让你停住了。是哪种感觉？",
     opts: [
-      { t: "蒙尘玫瑰、奶油白、鼠尾草绿", s: { cottagecore: 2, fairycore: 1, lightAcademia: 1 } },
-      { t: "午夜蓝、旧金色、深林绿", s: { darkAcademia: 3, witchcore: 1 } },
-      { t: "薰衣草紫、月白、晨雾灰", s: { fairycore: 2, witchcore: 2, liminalSpace: 1 } },
-      { t: "温米色、生亚麻、浅木原色", s: { mujicore: 3, japandi: 2, oldMoney: 1 } },
-      { t: "苔藓棕、蘑菇灰、铁锈橙", s: { goblincore: 3, grunge: 1 } },
-      { t: "柔粉、香槟金、蕾丝白", s: { coquette: 3, sanriocore: 1 } },
-      { t: "霓虹紫红、电子蓝、格栅黑", s: { synthwave: 3, cyberpunk: 2 } },
-      { t: "荧光粉、镀铬银、半透明塑料感", s: { y2k: 3, magicalGirl: 1, sanriocore: 1 } }
+      { t: "温柔的、被时间洗淡的、像是某人留下的东西", s: { cottagecore: 2, fairycore: 1, lightAcademia: 1 } },
+      { t: "厚重的、有点阴沉的，但美得让人喉咙发紧", s: { darkAcademia: 3, witchcore: 1 } },
+      { t: "轻盈而朦胧的，像看见了但又没完全看见", s: { fairycore: 2, witchcore: 1, liminalSpace: 1 } },
+      { t: "克制的、不张扬的、越看越感到安静", s: { japandi: 3, mujicore: 2, oldMoney: 1 } },
+      { t: "带着有机质感的暗色，像土地、腐叶、还没开放的东西", s: { goblincore: 3, grunge: 1 } },
+      { t: "精致的、有点甜的、放在手心里的那种", s: { coquette: 3, sanriocore: 1 } },
+      { t: "强烈的、带着速度感的、电流和光一起涌来", s: { synthwave: 3, cyberpunk: 2 } },
+      { t: "明亮的、轻盈的，像新材料、新世界的味道", s: { y2k: 2, magicalGirl: 2, sanriocore: 1 } }
     ]
   },
   {
     text: "你的桌面或梳妆台上通常有什么？",
     opts: [
-      { t: "叠起来的书，一根蜡烛，枯干的花", s: { darkAcademia: 2, lightAcademia: 1, witchcore: 1 } },
-      { t: "一杯水。一支笔。什么都没有。", s: { mujicore: 3, japandi: 2 } },
-      { t: "水晶、捡来的石头、来路不明的奇怪小东西", s: { goblincore: 2, witchcore: 2, fairycore: 1 } },
-      { t: "LED灯带，多个屏幕，机械键盘", s: { cyberpunk: 3, synthwave: 1 } },
-      { t: "绿植，素色陶器，自然采光", s: { japandi: 2, solarpunk: 2, cottagecore: 1 } },
-      { t: "香水瓶、护肤品、镜子、丝带或蝴蝶结", s: { coquette: 3, oldMoney: 1 } },
-      { t: "Hello Kitty摆件、贴纸、粉色小物件", s: { sanriocore: 3, magicalGirl: 1 } },
-      { t: "乐器、打口带、永远整理不完的杂物", s: { grunge: 3, goblincore: 1 } }
+      { t: "跟阅读有关的东西，以及点燃时让你专注的光源", s: { darkAcademia: 2, lightAcademia: 1, witchcore: 1 } },
+      { t: "什么都没有。或者尽可能少。", s: { mujicore: 3, japandi: 2 } },
+      { t: "来路有点不明确的小东西——捡来的、换来的、说不清为什么在这里的", s: { goblincore: 2, witchcore: 2, fairycore: 1 } },
+      { t: "屏幕和设备，有时候亮着，有时候关着，但它们都在", s: { cyberpunk: 3, synthwave: 1 } },
+      { t: "植物或自然的东西，光线从它们身上经过", s: { japandi: 2, solarpunk: 2, cottagecore: 1 } },
+      { t: "给自己的小礼物——护肤品、香水，或者某种取悦自己眼睛的东西", s: { coquette: 2, oldMoney: 1, magicalGirl: 1 } },
+      { t: "看了就想微笑的可爱小物，或者各种贴纸", s: { sanriocore: 3, magicalGirl: 1 } },
+      { t: "乐器、记录的东西、各种没整理完的材料", s: { grunge: 3, goblincore: 1 } }
     ]
   },
   {
     text: "一种气味让你停下脚步。是哪种？",
     opts: [
-      { t: "旧书与雨后的气味", s: { darkAcademia: 2, lightAcademia: 2, goblincore: 1 } },
-      { t: "泥土、新鲜香草、燃烧的木头", s: { cottagecore: 2, goblincore: 1, solarpunk: 1 } },
-      { t: "无味。只是干净的空气。", s: { mujicore: 3, japandi: 1 } },
-      { t: "合成感，略带化学气息，凉的", s: { cyberpunk: 2, synthwave: 1, liminalSpace: 1 } },
-      { t: "潮湿的土地、苔藓、地下室", s: { goblincore: 3, witchcore: 1 } },
-      { t: "花朵、雨水、森林深处说不清的香", s: { fairycore: 3, cottagecore: 1 } },
-      { t: "皮革、雪茄、年代久远的木质家具", s: { oldMoney: 3, darkAcademia: 1 } },
-      { t: "香甜的草莓、棉花糖、洗发水", s: { sanriocore: 2, coquette: 2, magicalGirl: 1 } }
+      { t: "纸张与时间混合后的气味，干净但有历史感", s: { darkAcademia: 2, lightAcademia: 2, goblincore: 1 } },
+      { t: "大地、草木、生长中的东西", s: { cottagecore: 2, goblincore: 1, solarpunk: 1 } },
+      { t: "几乎没有气味。就是空气本身。", s: { mujicore: 2, japandi: 2 } },
+      { t: "金属感、化学感，不像自然界应该有的味道", s: { cyberpunk: 2, synthwave: 1, liminalSpace: 1 } },
+      { t: "潮湿的、深处的、地下的", s: { goblincore: 3, witchcore: 1 } },
+      { t: "花或雨水，但比现实更浓缩，像梦里的版本", s: { fairycore: 3, cottagecore: 1 } },
+      { t: "厚重、陈旧、经过时间磨合的东西", s: { oldMoney: 3, darkAcademia: 1 } },
+      { t: "甜的、干净的、轻盈的，让人想微笑", s: { sanriocore: 3, magicalGirl: 1, coquette: 1 } }
     ]
   },
   {
     text: "你的手机壁纸是什么样的？",
     opts: [
-      { t: "模糊的雾中田野或林间漏光的照片", s: { cottagecore: 2, fairycore: 2 } },
-      { t: "渐变色彩的数字合成图，带着旧时代科幻感", s: { vaporwave: 2, synthwave: 2 } },
-      { t: "纯黑，或者一个单色", s: { mujicore: 3, grunge: 1, cyberpunk: 1 } },
-      { t: "故障风图像，有点令人不安的那种", s: { weirdcore: 3, liminalSpace: 1 } },
-      { t: "空旷的走廊、泳池、深夜便利店", s: { liminalSpace: 3, weirdcore: 2 } },
-      { t: "书本、建筑、古典艺术的局部截图", s: { lightAcademia: 2, darkAcademia: 2, oldMoney: 1 } },
-      { t: "卡通、三丽鸥角色，或者让我心情好的可爱图案", s: { sanriocore: 3, magicalGirl: 1 } },
-      { t: "郁郁葱葱的植物或植物学手绘插图", s: { solarpunk: 3, cottagecore: 1 } }
+      { t: "有机的、模糊的，像透过什么东西看出去的风景", s: { cottagecore: 2, fairycore: 2 } },
+      { t: "有时代质感的合成画面，带着某个特定年代的光", s: { vaporwave: 2, synthwave: 2 } },
+      { t: "纯色，或者什么都没有", s: { mujicore: 2, grunge: 1, cyberpunk: 2 } },
+      { t: "稍微让你感到不适但又说不清为什么的那种", s: { weirdcore: 3, liminalSpace: 1 } },
+      { t: "空旷、安静，可能有点不该存在的光源", s: { liminalSpace: 3, weirdcore: 2 } },
+      { t: "古老的、手工的、有艺术感的截图或图片", s: { lightAcademia: 2, darkAcademia: 2, oldMoney: 1 } },
+      { t: "让你一看就心情变好的图像，不需要理由", s: { sanriocore: 3, y2k: 2, magicalGirl: 1 } },
+      { t: "生长中的、自然的，有某种蓬勃感", s: { solarpunk: 3, cottagecore: 1 } }
     ]
   },
   {
     text: "你在听什么？",
     opts: [
-      { t: "室内乐、爵士、原声民谣", s: { darkAcademia: 2, lightAcademia: 2, cottagecore: 1 } },
-      { t: "合成器流行、Lo-fi City Pop、日本八十年代", s: { vaporwave: 3, y2k: 1 } },
-      { t: "后朋克、冷浪潮、工业噪音", s: { cyberpunk: 2, darkAcademia: 1, grunge: 1 } },
-      { t: "环境音乐、田野录音，或者干脆安静", s: { mujicore: 2, japandi: 2, liminalSpace: 1 } },
-      { t: "梦幻流行、Ethereal wave、New Age", s: { fairycore: 2, witchcore: 2, coquette: 1 } },
-      { t: "80年代金属合成器、驾驶感强的电子乐", s: { synthwave: 3, cyberpunk: 1 } },
-      { t: "失真吉他、Nirvana式噪音摇滚", s: { grunge: 3, cyberpunk: 1 } },
-      { t: "Hyperpop或超甜的J-Pop、偶像曲", s: { sanriocore: 2, magicalGirl: 2, y2k: 1 } }
+      { t: "器乐或人声都好，但要有某种时间感，像陈年酒", s: { darkAcademia: 2, lightAcademia: 2, cottagecore: 1 } },
+      { t: "带着回响和距离感的电子声，像城市不存在了之后", s: { vaporwave: 3, y2k: 1 } },
+      { t: "粗粝的、有棱角的、不为取悦任何人的", s: { grunge: 2, cyberpunk: 1, darkAcademia: 1 } },
+      { t: "几乎没有旋律——是气氛，是质地，是背景的一部分", s: { mujicore: 2, japandi: 2, liminalSpace: 1 } },
+      { t: "轻盈飘逸的，像光影或水流，让你暂时不在这里", s: { fairycore: 2, witchcore: 1, coquette: 1 } },
+      { t: "有速度感、驾驶感，把人带进某个想象的场景里", s: { synthwave: 3, cyberpunk: 1 } },
+      { t: "嘈杂的、真实的、带着原始情绪能量的", s: { grunge: 3, cyberpunk: 1 } },
+      { t: "甜的、亮的、带着某种变身感或少女力的", s: { magicalGirl: 3, sanriocore: 1, y2k: 1 } }
     ]
   },
   {
     text: "你在哪里发现了真正的美？",
     opts: [
-      { t: "不完美本身——磨损的，修补过的，有历史痕迹的", s: { japandi: 3, goblincore: 1, grunge: 1 } },
-      { t: "腐坏与怀旧，正在消逝的东西", s: { vaporwave: 2, darkAcademia: 1, liminalSpace: 1 } },
-      { t: "系统、网格与克制——少即是多", s: { mujicore: 3, oldMoney: 1 } },
-      { t: "奇异与边缘地带，令人不安的熟悉感", s: { weirdcore: 3, liminalSpace: 2 } },
-      { t: "柔软、精致、一切粉色和蕾丝的东西", s: { coquette: 3, sanriocore: 1 } },
-      { t: "无logo的质感，时间赋予物件的尊严", s: { oldMoney: 3, japandi: 1 } },
-      { t: "微小的神秘——蜘蛛网上的水珠，叶背的纹路", s: { fairycore: 2, goblincore: 1, witchcore: 1 } },
-      { t: "未来的乌托邦，生命繁盛、人与自然共生的图景", s: { solarpunk: 3, fairycore: 1 } }
+      { t: "有时间痕迹的东西——磨损的，修补过的，承载过生活的", s: { japandi: 3, goblincore: 1, grunge: 1 } },
+      { t: "消逝本身——那些正在或快要消失的事物", s: { vaporwave: 2, darkAcademia: 1, liminalSpace: 1, synthwave: 1 } },
+      { t: "秩序和克制——恰好合适，没有多余", s: { japandi: 3, mujicore: 1, oldMoney: 1 } },
+      { t: "边缘地带——那些很难定义、很难解释的东西", s: { weirdcore: 3, liminalSpace: 2 } },
+      { t: "某种极度柔软、极度私密的精致", s: { coquette: 3, sanriocore: 1 } },
+      { t: "一个普通人在某个瞬间拥有了改变什么的力量", s: { magicalGirl: 3, solarpunk: 1 } },
+      { t: "微小的神秘——大多数人走过去但没有注意到的东西", s: { fairycore: 2, goblincore: 1, witchcore: 1 } },
+      { t: "可以共生的图景——生命和生命之间本然的连接", s: { solarpunk: 3, fairycore: 1 } }
     ]
   },
   {
     text: "你和杂乱的关系是什么？",
     opts: [
-      { t: "杂乱是质感。我收集，我囤积，我热爱混乱。", s: { goblincore: 3, grunge: 1 } },
-      { t: "精心策划的丰盛——每件东西都值得在这里", s: { cottagecore: 2, witchcore: 1, darkAcademia: 1 } },
-      { t: "表面极简，内部丰富", s: { mujicore: 2, japandi: 2, oldMoney: 1 } },
-      { t: "我喜欢可爱的过度刺激——贴纸、挂饰、颜色越多越好", s: { sanriocore: 3, magicalGirl: 1, y2k: 1 } },
-      { t: "混乱没关系。秩序是一种幻觉。", s: { weirdcore: 2, grunge: 2, liminalSpace: 1 } },
-      { t: "仪式感的陈列——每件东西都有它的意义和位置", s: { witchcore: 3, darkAcademia: 1 } }
+      { t: "杂乱本身就是质感——我的混乱是有意义的混乱", s: { goblincore: 3, grunge: 1 } },
+      { t: "丰盛，但经过选择——每件东西都值得在这里", s: { cottagecore: 2, witchcore: 1, darkAcademia: 1 } },
+      { t: "表面看起来空的，但内部有非常多", s: { japandi: 3, mujicore: 1, oldMoney: 1 } },
+      { t: "越多越好，越亮越好，越密集越让我感到愉悦", s: { sanriocore: 2, y2k: 1, magicalGirl: 2 } },
+      { t: "乱不乱不重要，我对「秩序」这件事本身有点怀疑", s: { weirdcore: 2, grunge: 2, liminalSpace: 1, cyberpunk: 1 } },
+      { t: "仪式感的排列——每件东西都有它的含义和位置", s: { witchcore: 3, darkAcademia: 1 } }
     ]
   },
   {
     text: "你最想住在哪里？",
     opts: [
-      { t: "有花园的小屋，厨房里种着香草", s: { cottagecore: 3, fairycore: 1 } },
-      { t: "落地窗高楼，俯瞰城市夜灯与积雨", s: { cyberpunk: 2, synthwave: 1, oldMoney: 1 } },
-      { t: "图书馆式的家——深木、皮革、几千本书", s: { darkAcademia: 3, oldMoney: 1 } },
-      { t: "一间干净的公寓，一盆植物，充足的自然光", s: { mujicore: 2, japandi: 2, lightAcademia: 1 } },
-      { t: "一个过度生长的温室-住所混合体", s: { solarpunk: 3, goblincore: 1 } },
-      { t: "某个感觉像在故障边缘的地方——空旷、静止、时间不对", s: { liminalSpace: 3, weirdcore: 2 } },
-      { t: "祖传的老宅，有年头的家具，能感受到时间的重量", s: { oldMoney: 3, darkAcademia: 1 } },
-      { t: "全粉色的房间，毛绒玩具排列整齐，到处都是可爱", s: { sanriocore: 3, coquette: 2, magicalGirl: 1 } }
+      { t: "一个有花园的地方，厨房窗台上种着东西", s: { cottagecore: 3, fairycore: 1 } },
+      { t: "高楼，大片玻璃，城市在脚下发光", s: { cyberpunk: 3, synthwave: 1, oldMoney: 1 } },
+      { t: "像图书馆一样的家——书、木头、厚重的东西", s: { darkAcademia: 3, oldMoney: 1 } },
+      { t: "干净的、安静的、只有必要的东西，光线充足", s: { mujicore: 2, japandi: 2, lightAcademia: 1 } },
+      { t: "一个与自然过度共生、边界已经模糊的地方", s: { solarpunk: 3, goblincore: 1 } },
+      { t: "某个感觉不太属于正常时间坐标的地方——安静得有点奇怪", s: { liminalSpace: 3, weirdcore: 2 } },
+      { t: "有年头的老宅，家具能说故事，时间留下了重量", s: { oldMoney: 3, darkAcademia: 1 } },
+      { t: "一个可以让我完全变成另一种人的空间——布景、颜色、氛围都得对", s: { magicalGirl: 2, coquette: 2, sanriocore: 1 } }
     ]
   },
   {
-    text: "你与『过去』的关系是？",
+    text: "你与「过去」的关系是？",
     opts: [
-      { t: "过去是我更愿意居住的地方", s: { darkAcademia: 2, lightAcademia: 1, cottagecore: 1 } },
+      { t: "过去是我更愿意住在里面的地方", s: { darkAcademia: 2, lightAcademia: 1, cottagecore: 1 } },
       { t: "对一个自己没经历过的年代有无端的思念，有点心痛", s: { vaporwave: 3, darkAcademia: 1 } },
-      { t: "过去是未来的堆肥，我消化它然后继续走", s: { solarpunk: 3, goblincore: 1 } },
-      { t: "奶奶家的气味，旧家具，时间给物件留下的包浆", s: { oldMoney: 3, japandi: 1, cottagecore: 1 } },
-      { t: "我不怀旧，活在当下就很好", s: { solarpunk: 2, mujicore: 2 } },
-      { t: "我只想要霓虹格栅和还未到来的未来", s: { cyberpunk: 2, synthwave: 2, y2k: 1 } }
+      { t: "过去是素材，我消化它，然后继续走", s: { solarpunk: 3, goblincore: 1 } },
+      { t: "在旧的物件里找到一种时间赋予的尊严", s: { oldMoney: 3, japandi: 1, cottagecore: 1 } },
+      { t: "我不太怀旧，活在当下就很好", s: { mujicore: 2, solarpunk: 1, magicalGirl: 1 } },
+      { t: "比起回头看，我更期待自己还能成为什么", s: { magicalGirl: 2, cyberpunk: 1, y2k: 1, synthwave: 1 } }
     ]
   },
   {
     text: "一个人的深夜，你在做什么？",
     opts: [
-      { t: "翻旧的互联网存档，找那种几乎没人知道的网站", s: { weirdcore: 2, vaporwave: 2, liminalSpace: 1 } },
-      { t: "整理东西，调整家里的陈设，追求一种平静的秩序", s: { mujicore: 3, japandi: 2 } },
-      { t: "读诗或看电影，用笔记本记录感受", s: { lightAcademia: 3, darkAcademia: 1 } },
-      { t: "做护肤、香薰浴、点蜡烛，整个仪式走下来", s: { coquette: 3, witchcore: 1, oldMoney: 1 } },
-      { t: "在花盆边或窗台上发现一只小虫，陪它待一会儿", s: { goblincore: 3, fairycore: 1 } },
-      { t: "放很大声的音乐，什么都不管", s: { grunge: 3, cyberpunk: 1 } },
-      { t: "盯着月亮，摆弄塔罗牌或水晶", s: { witchcore: 3, fairycore: 1 } },
-      { t: "打游戏或刷三丽鸥周边，喝甜饮料", s: { sanriocore: 3, y2k: 1, magicalGirl: 1 } }
+      { t: "翻那些几乎没人记得的旧东西——网站、影像、任何有时代痕迹的档案", s: { weirdcore: 2, vaporwave: 2, liminalSpace: 1 } },
+      { t: "整理，调整，让空间达到某种只有自己能感知的精确状态", s: { japandi: 3, mujicore: 2 } },
+      { t: "读或看某些需要安静才能感受的东西，用文字回应它", s: { lightAcademia: 3, darkAcademia: 1 } },
+      { t: "认真对待自己的身体和感官——一套仪式，慢慢走完", s: { coquette: 3, witchcore: 1, oldMoney: 1 } },
+      { t: "注意到某个通常被忽略的微小生命，陪着它待一会儿", s: { goblincore: 3, fairycore: 1 } },
+      { t: "把音量开到不管的程度，沉进去", s: { grunge: 3, cyberpunk: 1, synthwave: 1 } },
+      { t: "在某种神秘的事物旁边待着——月亮、水晶，或者某种符号", s: { witchcore: 3, fairycore: 1 } },
+      { t: "进入某个让你感觉自己很特别、很有力量的世界里", s: { magicalGirl: 2, sanriocore: 2, y2k: 2 } }
     ]
   },
   {
     text: "你发照片到网络上，风格最接近哪种？",
     opts: [
-      { t: "自然光，胶片质感，食物、植物或手工物件", s: { cottagecore: 3, lightAcademia: 1 } },
-      { t: "高对比，暗调，有点颗粒感", s: { darkAcademia: 2, grunge: 2, cyberpunk: 1 } },
-      { t: "饱和度低，构图极简，留大量空白", s: { mujicore: 3, japandi: 2 } },
-      { t: "精致的生活细节——餐桌、香水、质感织物", s: { oldMoney: 3, coquette: 1 } },
-      { t: "鲜艳闪光，或者故意过曝、拼贴风格", s: { y2k: 2, magicalGirl: 1, sanriocore: 1 } },
-      { t: "我很少发，或者发了但构图完全随意", s: { goblincore: 2, grunge: 2, weirdcore: 1 } },
-      { t: "带引言或文字，图像是观点的载体", s: { solarpunk: 2, lightAcademia: 2, darkAcademia: 1 } }
+      { t: "自然光，有机质感，记录某种生活状态", s: { cottagecore: 3, lightAcademia: 1 } },
+      { t: "高对比，暗调，有点颗粒感或燥感", s: { darkAcademia: 2, grunge: 2, cyberpunk: 1 } },
+      { t: "饱和度低，极简，大量留白", s: { japandi: 3, mujicore: 2 } },
+      { t: "精致的生活细节，质感和氛围都要对", s: { oldMoney: 3, coquette: 1 } },
+      { t: "亮色的、充满能量的、看起来很开心的那种", s: { y2k: 3, magicalGirl: 1, sanriocore: 1 } },
+      { t: "带引言或文字，图像是观点的容器", s: { solarpunk: 2, lightAcademia: 2, darkAcademia: 1 } },
+      { t: "我很少发，或者发了也是随手，没有构图意识", s: { goblincore: 2, grunge: 2, weirdcore: 1 } },
+      { t: "每张都是某个心情，没有统一风格，也不打算有", s: { weirdcore: 1, vaporwave: 1, liminalSpace: 1 } }
     ]
   },
   {
     text: "如果魔法存在，你觉得它藏在哪里？",
     opts: [
-      { t: "古老的仪式里，月圆之夜，符文和草药", s: { witchcore: 3, darkAcademia: 1 } },
-      { t: "树根之间、露水里、昆虫翅膀的脉络", s: { fairycore: 3, goblincore: 1 } },
-      { t: "一个少女许下誓言，星星赋予她力量的瞬间", s: { magicalGirl: 3, fairycore: 1 } },
-      { t: "三丽鸥的粉色泡泡里——可爱本身就是魔法", s: { sanriocore: 3, magicalGirl: 1 } },
-      { t: "空旷走廊尽头那扇微开的门后面", s: { liminalSpace: 3, weirdcore: 2 } },
-      { t: "魔法不存在。但如果存在，它应该很克制，像一块质地很好的石头。", s: { mujicore: 2, japandi: 2, oldMoney: 1 } }
+      { t: "古老的知识和仪式里——人类花了几千年积累的秘密", s: { witchcore: 3, darkAcademia: 1 } },
+      { t: "自然的微小之处——你弯下腰才能看见的地方", s: { fairycore: 3, goblincore: 1 } },
+      { t: "一个人下定决心的那个瞬间，愿望本身就是力量", s: { magicalGirl: 3, fairycore: 1 } },
+      { t: "在善意和温柔之中——美好本身就是一种奇迹", s: { sanriocore: 3, magicalGirl: 1 } },
+      { t: "那些不太对劲的地方——时空的缝隙里", s: { liminalSpace: 3, weirdcore: 2 } },
+      { t: "魔法不存在。如果存在，它应该是低调的，像好的设计。", s: { mujicore: 2, japandi: 2, oldMoney: 1, cyberpunk: 1 } }
     ]
   },
   {
     text: "你的怀旧是什么感觉？",
     opts: [
-      { t: "对一个自己没经历过的年代莫名心痛，像失去了什么", s: { vaporwave: 3, darkAcademia: 1 } },
-      { t: "驾驶感，速度，霓虹从车窗外掠过，全速驶向那个从未发生的未来", s: { synthwave: 3, cyberpunk: 1 } },
-      { t: "翻出一台GBA，或者记起第一次上网的那种纯粹兴奋", s: { y2k: 3, sanriocore: 1 } },
-      { t: "奶奶家的气味，旧家具，某种无法复制的生活质感", s: { oldMoney: 3, cottagecore: 1 } },
-      { t: "对某个快要消失的、没人记得的小东西的留恋", s: { goblincore: 2, liminalSpace: 2, vaporwave: 1 } },
-      { t: "我不太怀旧——或者说，我怀念的是一个还没发生的更好的未来", s: { solarpunk: 3, mujicore: 1 } }
+      { t: "对一个不属于自己年代的东西莫名心痛，像失去了什么", s: { vaporwave: 3, darkAcademia: 1 } },
+      { t: "速度感和霓虹——一个从未真正存在的未来的记忆", s: { synthwave: 3, cyberpunk: 1 } },
+      { t: "对科技和网络的最初那种纯粹的兴奋和好奇", s: { y2k: 3, sanriocore: 1 } },
+      { t: "某种物质的、有重量的东西——旧家具，气味，无法复制的质感", s: { oldMoney: 3, cottagecore: 1 } },
+      { t: "对某个快要消失的、没人记得的细节的留恋", s: { goblincore: 2, liminalSpace: 2, vaporwave: 1 } },
+      { t: "我不太怀旧——比起过去，我更想知道自己还可以成为什么", s: { solarpunk: 2, magicalGirl: 2, mujicore: 1 } }
     ]
   },
   {
     text: "你如何看待自己的消费和购物？",
     opts: [
-      { t: "少买，但买的每件东西都经过深思，用很久", s: { mujicore: 3, japandi: 2 } },
-      { t: "只买有历史的、无logo的、质地经得起时间的", s: { oldMoney: 3, japandi: 1 } },
-      { t: "愿意花在蕾丝、香水、护肤上，这是对自己的仪式", s: { coquette: 3, oldMoney: 1 } },
-      { t: "尽量买二手、自制、修复——消费本身应该有伦理", s: { solarpunk: 3, goblincore: 1, grunge: 1 } },
-      { t: "我不太在意，东西用坏了再说，或者干脆不买", s: { grunge: 3, weirdcore: 1 } },
-      { t: "我喜欢可爱的东西，价格不重要，让我快乐最重要", s: { sanriocore: 3, magicalGirl: 1, coquette: 1 } }
+      { t: "少买，但每件东西都经过深思，会用很久", s: { mujicore: 3, japandi: 2 } },
+      { t: "只买经得起时间的东西，历史感比价格重要", s: { oldMoney: 3, japandi: 1 } },
+      { t: "愿意为让感官愉悦的东西付出，这是对自己的照料", s: { coquette: 3, oldMoney: 1 } },
+      { t: "尽量不消费，或者二手、自制——消费应该有伦理", s: { solarpunk: 3, goblincore: 1, grunge: 1 } },
+      { t: "不太在意——东西是用来用的，用坏了再说", s: { grunge: 3, weirdcore: 1, cyberpunk: 1 } },
+      { t: "愿意为让我感到快乐或有力量的东西买单，不需要太多理由", s: { magicalGirl: 2, sanriocore: 2, coquette: 1, synthwave: 1 } }
     ]
   }
 ];
+
+
 
 // ─── State ───
 let scores = {};
@@ -983,7 +986,7 @@ function selectOpt(optScores) {
 
 function showResults() {
   const sorted = Object.entries(scores)
-    .sort((a, b) => b[1] - a[1])
+    .sort((a, b) => b[1] - a[1] || Math.random() - 0.5)
     .filter(([, v]) => v > 0);
 
   const winnerId = sorted[0][0];
